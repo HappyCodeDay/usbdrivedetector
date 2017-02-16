@@ -2,20 +2,27 @@ package net.samuelcampos.usbdrivedectector;
 
 import net.samuelcampos.usbdrivedectector.events.IUSBDriveListener;
 import net.samuelcampos.usbdrivedectector.events.USBStorageEvent;
+import org.junit.Test;
+
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
 
 /**
- *
  * @author samuelcampos
  */
-public class SimpleTest implements IUSBDriveListener{
+
+public class SimpleTest implements IUSBDriveListener {
+
     public static void main(String[] args) {
         System.out.println("Start Test");
-		USBDeviceDetectorManager driveDetector = new USBDeviceDetectorManager();
+
+
+        USBDeviceDetectorManager driveDetector = new USBDeviceDetectorManager();
 
         driveDetector.getRemovableDevices().forEach(System.out::println);
-        
+
         SimpleTest sTest = new SimpleTest();
-        
+
         driveDetector.addDriveListener(sTest);
 
         try {
@@ -25,10 +32,9 @@ public class SimpleTest implements IUSBDriveListener{
         }
 
         System.out.println("Test finished");
-	}
-    
-    private SimpleTest () {
-        
+    }
+
+    private SimpleTest() {
     }
 
     @Override
