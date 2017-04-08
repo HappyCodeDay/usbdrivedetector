@@ -50,6 +50,7 @@ public class BathroomStalls {
         }
         writer.close();
         System.out.println("Finished all threads");
+
     }
 
 
