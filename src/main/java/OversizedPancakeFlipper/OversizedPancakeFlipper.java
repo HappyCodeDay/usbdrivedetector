@@ -16,7 +16,7 @@ public class OversizedPancakeFlipper {
         ArrayList<String> input = reader.lines().collect(Collectors.toCollection(ArrayList::new));
         System.out.println(input.size());
         int lines = Integer.parseInt(input.get(0));
-        File file = new File("result.txt");
+        File file = new File("OversizedPancakeFlipper.txt");
         file.delete();
         PrintWriter writer = new PrintWriter(file);
 

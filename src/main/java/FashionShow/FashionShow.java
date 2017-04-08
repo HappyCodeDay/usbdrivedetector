@@ -75,7 +75,7 @@ public class FashionShow {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<String> input = reader.lines().collect(Collectors.toCollection(ArrayList::new));
         int lines = Integer.parseInt(input.get(0));
-        File file = new File("result.txt");
+        File file = new File("FashionShow.txt");
         file.delete();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 

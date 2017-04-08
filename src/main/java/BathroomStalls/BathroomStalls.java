@@ -18,7 +18,7 @@ public class BathroomStalls {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<String> input = reader.lines().collect(Collectors.toCollection(ArrayList::new));
         int lines = Integer.parseInt(input.get(0));
-        File file = new File("bathroomStalls.txt");
+        File file = new File("BathroomStalls.txt");
         file.delete();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         ExecutorService executor = Executors.newFixedThreadPool(lines);

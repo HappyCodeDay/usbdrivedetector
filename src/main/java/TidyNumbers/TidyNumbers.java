@@ -62,7 +62,7 @@ public class TidyNumbers {
         ArrayList<String> input = reader.lines().collect(Collectors.toCollection(ArrayList::new));
         System.out.println(input.size());
         int lines = Integer.parseInt(input.get(0));
-        File file = new File("result.txt");
+        File file = new File("TidyNumbers.txt");
         file.delete();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
