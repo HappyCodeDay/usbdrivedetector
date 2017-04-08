@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * Created by raliclo on 04/03/2017.
  */
-public class Fliper {
+public class OversizedPancakeFlipper {
 
     public static void main(String[] args) throws IOException {
 
