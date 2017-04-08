@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Comparator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -16,29 +18,40 @@ public class BathroomStalls {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<String> input = reader.lines().collect(Collectors.toCollection(ArrayList::new));
         int lines = Integer.parseInt(input.get(0));
-        File file = new File("result.txt");
+        File file = new File("bathroomStalls.txt");
         file.delete();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        ExecutorService executor = Executors.newFixedThreadPool(lines);
 
         for (int i = 1; i <= lines; i++) {
             String[] data = input.get(i).split(" ");
             int numStalls = Integer.parseInt(data[0]); // get it from user input if you like
             int people = Integer.parseInt(data[1]);
-
-            MyHelper helper = new MyHelper(numStalls);
-            helper.fill(numStalls, people);
-            System.out.print("Case #" + i + ": ");
-            writer.append("Case #" + i + ": ");
-            int[] pairLsRs = helper.getResult();
-            System.out.println(pairLsRs[0] + " " + pairLsRs[1]);
-            writer.append(pairLsRs[0] + " " + pairLsRs[1] + "\n");
+            int[] box = new int[1];
+            box[0] = i;
+            Runnable runner = () -> {
+                try {
+                    MyHelper helper = new MyHelper(numStalls);
+                    helper.fill(numStalls, people);
+                    int[] pairLsRs = helper.getResult();
+                    System.out.print("Case #" + box[0] + ": ");
+                    System.out.println(pairLsRs[0] + " " + pairLsRs[1]);
+                    writer.append("Case #" + box[0] + ": ");
+                    writer.append(pairLsRs[0] + " " + pairLsRs[1] + "\n");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+            executor.execute(runner);
 //            String ans = helper.printStalls(helper.bs);
 //            System.out.println(ans);
-
+        }
+        while (!executor.isTerminated()) {
         }
         writer.close();
-
+        System.out.println("Finished all threads");
     }
+
 
     static class MyHelper {
         BitSet bs = new BitSet();
