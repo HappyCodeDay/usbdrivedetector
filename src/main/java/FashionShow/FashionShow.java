@@ -2,6 +2,7 @@ package FashionShow;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 /**
@@ -10,38 +11,45 @@ import java.util.stream.Collectors;
 public class FashionShow {
 
     static class MyHelper {
-        String[][] datanode;
+        TreeMap datanode;
+        TreeMap backup;
 
         int rating;
 
-        MyHelper(String[][] dataNode) {
+        MyHelper(TreeMap dataNode) {
             datanode = dataNode;
+            backup = clone2D(dataNode);
         }
 
+        TreeMap clone2D(TreeMap inputNode) {
+            return (TreeMap) inputNode.clone();
+        }
 
-        void printData() {
+        void printData(TreeMap datanode) {
             System.out.println("\n[Info] DataMatrix:");
-            for (int i = 0; i < datanode.length; i++) {
-                for (int j = 0; j < datanode[i].length; j++) {
-                    if (datanode[i][j] == null) {
-                        datanode[i][j] = ".";
+            int matrixSize = (int) datanode.get("matrixSize");
+            for (int i = 0; i < matrixSize; i++) {
+                for (int j = 0; j < matrixSize; j++) {
+                    if (!datanode.containsKey(i + "_" + j)) {
+//                        datanode.put((i + "_" + j), ".");
+                        System.out.print(".");
+
+                    } else {
+                        System.out.print(datanode.get(i + "_" + j));
                     }
-                    System.out.print(datanode[i][j]);
-                    if (j == datanode[i].length - 1) {
+                    if (j == matrixSize - 1) {
                         System.out.println();
                     }
                 }
             }
+            System.out.println(datanode);
         }
 
-        int rateData() {
+        int rateData(TreeMap datanode) {
             rating = 0;
-            for (int i = 0; i < datanode.length; i++) {
-                for (int j = 0; j < datanode[i].length; j++) {
-                    if (datanode[i][j] == null) {
-                        datanode[i][j] = ".";
-                    }
-                    switch (datanode[i][j]) {
+            datanode.forEach((Object k, Object v) -> {
+                if (k != "matrixSize") {
+                    switch ((String) v) {
                         case "x":
                             rating += 1;
                             break;
@@ -56,19 +64,19 @@ public class FashionShow {
                             break;
                     }
                 }
-
-            }
+            });
             System.out.println("[Info] Rating:" + rating);
             return rating;
         }
 
-        void optimizeRating(String[][] datanode) {
+        void optimizeRating(TreeMap datanode) {
 
         }
 
-        void ruleCheck(String[][] datanode) {
+        void ruleCheck(TreeMap datanode) {
 
         }
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -81,28 +89,29 @@ public class FashionShow {
 
         int max = lines;
         int next = 1;
-        int count = 1;
+        int count = 0;
         for (; next < max; next++) {
             String[] caseD = input.get(next).split(" ");
             int matrixSize = Integer.parseInt(caseD[0]);
             int starRoles = Integer.parseInt(caseD[1]);
-            String[][] dataNode = new String[matrixSize][matrixSize];
+            TreeMap dataNode = new TreeMap<String, String>();
+            dataNode.put("matrixSize", matrixSize);
+
             for (int j = 1; j <= starRoles; j++) {
                 String[] starLoc = input.get(next + j).split(" ");
                 String starType = starLoc[0];
                 int starX = Integer.parseInt(starLoc[1]) - 1;
                 int starY = Integer.parseInt(starLoc[2]) - 1;
-                dataNode[starX][starY] = starType;
+                dataNode.put((starX + "_" + starY), starType);
             }
             max += matrixSize;
             next += starRoles;
             count++;
-            MyHelper helper = new MyHelper(dataNode);
-            helper.printData();
-            helper.rateData();
-
             System.out.print("Case #" + count + ": ");
             writer.append("Case #" + count + ": ");
+            MyHelper helper = new MyHelper(dataNode);
+            helper.printData(dataNode);
+            helper.rateData(dataNode);
         }
         writer.close();
     }
