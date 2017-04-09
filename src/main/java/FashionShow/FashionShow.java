@@ -2,6 +2,8 @@ package FashionShow;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -42,7 +44,87 @@ public class FashionShow {
                     }
                 }
             }
-            System.out.println(datanode);
+//            System.out.println(datanode);
+        }
+
+        boolean isRule1(TreeMap datanode) {
+            int matrixSize = (int) datanode.get("matrixSize");
+            if (matrixSize == 1) {
+                return true;
+            }
+            boolean[] flag = new boolean[2];
+            HashMap xValid = new HashMap<>();
+            HashMap yValid = new HashMap<>();
+            List specialPoint = new ArrayList<>();
+            datanode.forEach((Object k, Object v) -> {
+                if (k != "matrixSize") {
+                    String[] locXY = k.toString().split("_");
+                    int rowN = Integer.parseInt(locXY[0]);
+                    int colN = Integer.parseInt(locXY[1]);
+                    if (v.equals("+")) {
+                        specialPoint.add(k);
+                    }
+                    for (int i = 0; i < matrixSize; i++) {
+                        if (rowN == i) {
+                            xValid.computeIfPresent(i, (kk, vv) -> (int) vv + 1);
+                            xValid.putIfAbsent(i, 1);
+                        }
+                        if (colN == i) {
+                            yValid.computeIfPresent(i, (kk, vv) -> (int) vv + 1);
+                            yValid.putIfAbsent(i, 1);
+                        }
+                    }
+                }
+            });
+//            System.out.println(specialPoint);
+//            System.out.println(xValid);
+            xValid.forEach((k, v) -> {
+                        if ((int) v >= 2) {
+                            specialPoint.forEach(
+                                    (item) -> {
+                                        if (item.toString().split("_")[0].equals(k)) ;
+                                        flag[0] = true;
+                                    }
+                            );
+                        }
+
+                    }
+            );
+//            System.out.println(yValid);
+            yValid.forEach((k, v) -> {
+                        if ((int) v >= 2) {
+                            specialPoint.forEach(
+                                    (item) -> {
+                                        if (item.toString().split("_")[1].equals(k)) ;
+                                        flag[1] = true;
+                                    }
+                            );
+                        }
+
+                    }
+            );
+//            System.out.println(flag[0] + " " + flag[1]);
+            return flag[0] && flag[1];
+        }
+
+        boolean isRule2(TreeMap datanode) {
+            int matrixSize = (int) datanode.get("matrixSize");
+            if (matrixSize == 1) {
+                return true;
+            }
+            boolean flag = false;
+            int count = 0;
+            for (int i = 0; i < matrixSize; i++) {
+                String index = i + "_" + (matrixSize - i - 1);
+                if (datanode.containsKey(index)) {
+                    count++;
+                    if (datanode.get(index).equals("x")) {
+                        flag = true;
+                    }
+                }
+//                System.out.println(index + "/" + count + "/" + flag);
+            }
+            return count >= 2 ? flag : false;
         }
 
         int rateData(TreeMap datanode) {
@@ -65,7 +147,7 @@ public class FashionShow {
                     }
                 }
             });
-            System.out.println("[Info] Rating:" + rating);
+            System.out.println("[Result] Rating:" + rating);
             return rating;
         }
 
@@ -110,8 +192,11 @@ public class FashionShow {
             System.out.print("Case #" + count + ": ");
             writer.append("Case #" + count + ": ");
             MyHelper helper = new MyHelper(dataNode);
-            helper.printData(dataNode);
+//            helper.printData(dataNode);
             helper.rateData(dataNode);
+//            System.out.println(helper.isRule2(dataNode));
+
+            System.out.println(helper.isRule1(dataNode));
         }
         writer.close();
     }
