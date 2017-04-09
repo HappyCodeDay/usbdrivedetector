@@ -10,7 +10,7 @@ description = """USB Drive Dectector"""
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8'
 }
 
 configurations.all {
@@ -23,12 +23,16 @@ task runTest(type: JavaExec) {
 }
 
 repositories {
-        
-     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-     maven { url "http://repo.maven.apache.org/maven2" }
+
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://repo.maven.apache.org/maven2" }
 }
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.19'
-    testCompile group: 'junit', name: 'junit', version:'4.12'
-    testCompile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.19'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.19'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.19'
 }
+
+jar.enabled = false;
+distTar.enabled = false
+distZip.enabled = false

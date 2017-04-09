@@ -155,8 +155,8 @@ public class FashionShow {
 
         }
 
-        void ruleCheck(TreeMap datanode) {
-
+        boolean ruleCheck(TreeMap datanode) {
+            return isRule1(datanode) && isRule2(datanode);
         }
 
     }
