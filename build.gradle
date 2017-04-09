@@ -16,6 +16,8 @@ tasks.withType(JavaCompile) {
 configurations.all {
 }
 
+mainClassName = "net.samuelcampos.usbdrivedectector.SimpleTest"
+
 task runTest(type: JavaExec) {
     mainClassName = "net.samuelcampos.usbdrivedectector.SimpleTest"
     main = mainClassName
@@ -33,6 +35,6 @@ dependencies {
     testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.19'
 }
 
-jar.enabled = false;
+//jar.enabled = false;
 distTar.enabled = false
 distZip.enabled = false
