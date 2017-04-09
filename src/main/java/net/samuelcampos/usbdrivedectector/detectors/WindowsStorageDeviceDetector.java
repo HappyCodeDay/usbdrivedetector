@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author samuelcampos
  */
 public class WindowsStorageDeviceDetector extends AbstractStorageDeviceDetector {
@@ -47,7 +46,7 @@ public class WindowsStorageDeviceDetector extends AbstractStorageDeviceDetector 
     public List<USBStorageDevice> getRemovableDevices() {
         ArrayList<USBStorageDevice> listDevices = new ArrayList<>();
 
-        try (CommandExecutor commandExecutor = new CommandExecutor(CMD_WMI_USB)){
+        try (CommandExecutor commandExecutor = new CommandExecutor(CMD_WMI_USB)) {
             commandExecutor.processOutput((String outputLine) -> {
                 if (!outputLine.isEmpty() && !"DeviceID".equals(outputLine)) {
                     String rootPath = outputLine + File.separatorChar;
